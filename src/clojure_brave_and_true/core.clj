@@ -1,5 +1,6 @@
 (ns clojure-brave-and-true.core
   (:require [clojure.string :as string]
+            [clojure.pprint :refer [pprint]]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure-brave-and-true.chapter3 :as chapter3])
   (:gen-class))
@@ -55,7 +56,7 @@
       {:message (usage summary)})))
 
 (defn show [msg]
-  (println msg))
+  (pprint msg))
 
 (defn -main [& args]
   (let [{:keys [message]} (validate-args args)]
