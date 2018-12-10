@@ -83,7 +83,7 @@
           []
           asym-body-parts))
 
-(defn main 
+(defn main
   []
   [{:type "hobbit" :body (expand-body-parts asym-body-parts humanoid-expand-parts)}
   {:type "alien" :body (expand-body-parts asym-body-parts alien-expand-parts)}])
