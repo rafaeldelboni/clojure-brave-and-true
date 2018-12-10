@@ -2,16 +2,20 @@
   (:require [clojure.string :as string]
             [clojure.pprint :refer [pprint]]
             [clojure.tools.cli :refer [parse-opts]]
-            [clojure-brave-and-true.chapter3 :as chapter3])
+            [clojure-brave-and-true.chapter3 :as chapter3]
+            [clojure-brave-and-true.chapter4 :as chapter4])
   (:gen-class))
 
-(def chapters {:chapter3 chapter3/main})
+(def chapters
+  {:chapter3 chapter3/main
+   :chapter4 chapter4/main})
 
 (defn match-chapter
   "Match which chapter based on argument"
   [chapter]
   (cond
     (= chapter 3) :chapter3
+    (= chapter 4) :chapter4
     :else nil))
 
 (defn exec-chapter
@@ -24,7 +28,7 @@
   ;; An option with a required argument
   [["-c" "--chapter NUMBER"
     :parse-fn #(Integer/parseInt %)
-    :validate [#(< 2 % 4) "Chapter must be a number be 3"]]
+    :validate [#(< 2 % 5) "Chapter must be a number between 3 and 4"]]
    ;; A boolean option defaulting to nil
    ["-h" "--help"]])
 

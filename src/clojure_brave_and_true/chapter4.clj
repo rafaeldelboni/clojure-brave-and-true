@@ -73,4 +73,6 @@
 
 (defn main
   []
-  (append-vamp (mapify (parse (slurp filename))) {:name "Blade" :glitter-index 0}))
+  (to-csv
+    (append-vamp
+      (mapify (parse (slurp filename))) {:name "Blade" :glitter-index 0})))
