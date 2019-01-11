@@ -42,3 +42,12 @@
                   (assoc map key (up (get map key) keys func args))
                   (assoc map key (apply func (get map key) args)))))]
      (up map keys func args))))
+
+(defn main []
+  {:current 
+   {:int (c-int character) :dex (c-dex character) :str (c-str character)}
+   :next
+   {
+    :int (c-int (n-int character 3))
+    :dex (c-dex (n-dex character 1))
+    :str (c-str (n-str character 2))}})
