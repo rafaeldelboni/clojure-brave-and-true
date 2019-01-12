@@ -22,3 +22,6 @@
     (reduce do-adds [])
     (reduce do-subs [])
     (last)))
+
+(defn main []
+  ['(1 + 1 / 3 - 3) "=" (infix-all [1 + 1 / 3 - 3])])

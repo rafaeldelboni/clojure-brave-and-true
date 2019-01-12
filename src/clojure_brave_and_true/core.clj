@@ -4,7 +4,8 @@
             [clojure.tools.cli :refer [parse-opts]]
             [clojure-brave-and-true.chapter3 :as chapter3]
             [clojure-brave-and-true.chapter4 :as chapter4]
-            [clojure-brave-and-true.chapter5 :as chapter5])
+            [clojure-brave-and-true.chapter5 :as chapter5]
+            [clojure-brave-and-true.chapter7 :as chapter7])
   (:gen-class))
 
 (defn match-chapter
@@ -14,19 +15,20 @@
     (= chapter 3) chapter3/main
     (= chapter 4) chapter4/main
     (= chapter 5) chapter5/main
+    (= chapter 7) chapter7/main
     :else nil))
 
 (defn exec-chapter
   "Execute function of matched chapter"
   [chapter]
   (def matched (match-chapter chapter))
-  (if-some [func matched] (func) "Non existent chapter"))
+  (if-some [func matched] (func) "Non existent chapter exercises"))
 
 (def cli-options
   ;; An option with a required argument
   [["-c" "--chapter NUMBER"
     :parse-fn #(Integer/parseInt %)
-    :validate [#(< 2 % 7) "Chapter must be a number between 3 and 6"]]
+    :validate [#(< 2 % 8) "Chapter must be a number between 3 and 7"]]
    ;; A boolean option defaulting to nil
    ["-h" "--help"]])
 
