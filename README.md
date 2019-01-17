@@ -1,6 +1,6 @@
 # clojure-brave-and-true
 
-This is my turn doing the exercises from [BraveClojure](https://www.braveclojure.com) while learnig Clojure.
+This is my turn doing the exercises from [BraveClojure](https://www.braveclojure.com) while learning Clojure.
 
 ## Usage
 
