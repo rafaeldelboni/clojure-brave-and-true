@@ -5,7 +5,8 @@
             [clojure-brave-and-true.chapter3 :as chapter3]
             [clojure-brave-and-true.chapter4 :as chapter4]
             [clojure-brave-and-true.chapter5 :as chapter5]
-            [clojure-brave-and-true.chapter7 :as chapter7])
+            [clojure-brave-and-true.chapter7 :as chapter7]
+            [clojure-brave-and-true.chapter8 :as chapter8])
   (:gen-class))
 
 (defn match-chapter
@@ -16,6 +17,7 @@
     (= chapter 4) chapter4/main
     (= chapter 5) chapter5/main
     (= chapter 7) chapter7/main
+    (= chapter 8) chapter8/main
     :else nil))
 
 (defn exec-chapter
@@ -28,7 +30,7 @@
   ;; An option with a required argument
   [["-c" "--chapter NUMBER"
     :parse-fn #(Integer/parseInt %)
-    :validate [#(< 2 % 8) "Chapter must be a number between 3 and 7"]]
+    :validate [#(< 2 % 9) "Chapter must be a number between 3 and 7"]]
    ;; A boolean option defaulting to nil
    ["-h" "--help"]])
 

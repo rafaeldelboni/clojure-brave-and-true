@@ -65,8 +65,8 @@
 (t/deftest my-update-in-test
   (testing "my-update-in should behave as update-in"
     (let [p {:name "James" :age 26}]
-      (is (= (update-in p [:age] inc)
+      (is (= (ch5/my-update-in p [:age] inc)
              {:name "James", :age 27}))
-      (is (= (update-in p [:age] + 10)
+      (is (= (ch5/my-update-in p [:age] + 10)
              {:name "James", :age 36}))
       )))

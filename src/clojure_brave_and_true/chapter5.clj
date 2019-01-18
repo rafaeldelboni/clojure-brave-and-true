@@ -44,7 +44,7 @@
      (up map keys func args))))
 
 (defn main []
-  {:current 
+  {:current
    {:int (c-int character) :dex (c-dex character) :str (c-str character)}
    :next
    {
