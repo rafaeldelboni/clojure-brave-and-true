@@ -34,21 +34,20 @@
   [task-number]
   (take task-number
         (repeat
-          (fn [atom-quote-words]
+          (fn [current-state-quote-words]
             (swap!
-              atom-quote-words
+              current-state-quote-words
               into (convert-quote-words
-                     (slurp "https://www.braveclojure.com/random-quote"))))
-          )))
+                     (slurp "https://www.braveclojure.com/random-quote")))))))
 
 (defn async-many-futures
-  [tasks atom-quote-words]
+  [tasks current-state-quote-words]
   (do
     (let [futures
           (doall
             (for [task tasks]
               (future
-                (task atom-quote-words))))]
+                (task current-state-quote-words))))]
       (doseq [completion futures]
         @completion))))
 
@@ -56,5 +55,5 @@
   [quote-number]
   (do 
     (reset! state-quote-words [])
-    (async-many-futures (generate-future-tasks quote-number) state-quote-words )
+    (async-many-futures (generate-future-tasks quote-number) state-quote-words)
     (words-to-count-map @state-quote-words)))
