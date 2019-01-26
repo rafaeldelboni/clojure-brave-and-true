@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all :as t]
             [clojure-brave-and-true.chapter10.atomic :refer :all :as atomic]
             [clojure-brave-and-true.chapter10.quotes :refer :all :as quotes]
+            [clojure-brave-and-true.chapter10.heal :refer :all :as heal]
             [mock-clj.core :as mock]))
 
 (t/deftest atomic-incrementer-test
@@ -59,21 +60,23 @@
 
 (t/deftest generate-future-tasks-test
   (testing "should return a task list"
-    (is (= (quotes/generate-future-tasks 2)
-           '((swap! random-quotes into (convert-quote-words
-                    (slurp "https://www.braveclojure.com/random-quote")))
-             (swap! random-quotes into (convert-quote-words
-                    (slurp "https://www.braveclojure.com/random-quote"))))))
+    (is (= (count (quotes/generate-future-tasks 2))
+           2))
     ))
 
 (t/deftest async-many-futures-test
-  (testing "should populate random-quotes with a word list"
+  (testing "should populate quote-word-count-testords with a word list"
     (is (= (do
-             (reset! quotes/random-quotes [])
+             (reset! quotes/state-quote-words  [])
              (quotes/async-many-futures
-                 ['(swap! random-quotes into (quotes/convert-quote-words (str "de bo la")))
-                  '(swap! random-quotes into (quotes/convert-quote-words (str "ar af le")))])
-             (sort @quotes/random-quotes))
+               [(fn [atom-quotes] (swap! quotes/state-quote-words
+                                         into (quotes/convert-quote-words
+                                                (str "de bo la"))))
+                (fn [atom-quotes] (swap! quotes/state-quote-words
+                                         into (quotes/convert-quote-words 
+                                                (str "ar af le"))))]
+               quotes/state-quote-words )
+             (sort @quotes/state-quote-words ))
            ["af" "ar" "bo" "de" "la" "le"]))
     ))
 
@@ -90,3 +93,30 @@
       (t/is (= (quotes/quote-word-count 4)
                {"duper" 4, "random" 4, "shobe" 4, "drama" 4})))
       ))
+
+(t/deftest give-potion-test
+  (testing "should giver give a potion to receiver"
+    (do (def player-uno (ref {:potions 1}))
+        (def player-duo (ref {:potions 9}))
+        (heal/give-potion player-uno player-duo)
+        (is (= @player-uno
+               {:potions 2}))
+        (is (= @player-duo
+               {:potions 8}))
+    )))
+
+(t/deftest use-potion-test
+  (testing "should giver give a potion to receiver"
+    (do (def player-tre (ref {:max-health 40 :cur-health 15 :potions 1}))
+        (def player-quattro (ref {:max-health 40 :cur-health 40 :potions 9}))
+        (def player-cinque (ref {:max-health 40 :cur-health 1 :potions 0}))
+        (heal/use-potion player-tre)
+        (heal/use-potion player-quattro)
+        (heal/use-potion player-cinque)
+        (is (= @player-tre
+               {:max-health 40, :cur-health 40, :potions 0}))
+        (is (= @player-quattro
+               {:max-health 40, :cur-health 40, :potions 8}))
+        (is (= @player-cinque
+               {:max-health 40, :cur-health 1, :potions 0}))
+    )))

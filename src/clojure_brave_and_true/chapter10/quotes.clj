@@ -1,6 +1,6 @@
 (ns clojure-brave-and-true.chapter10.quotes)
 
-(def random-quotes (atom []))
+(def state-quote-words (atom []))
 
 (defn remove-author-name
   [quote]
@@ -34,26 +34,27 @@
   [task-number]
   (take task-number
         (repeat
-          '(swap!
-              random-quotes
+          (fn [atom-quote-words]
+            (swap!
+              atom-quote-words
               into (convert-quote-words
-                     (slurp "https://www.braveclojure.com/random-quote")))
+                     (slurp "https://www.braveclojure.com/random-quote"))))
           )))
 
 (defn async-many-futures
-  [tasks]
+  [tasks atom-quote-words]
   (do
     (let [futures
           (doall
             (for [task tasks]
               (future
-                (eval task))))]
+                (task atom-quote-words))))]
       (doseq [completion futures]
         @completion))))
 
 (defn quote-word-count
   [quote-number]
   (do 
-    (reset! random-quotes [])
-    (async-many-futures (generate-future-tasks quote-number))
-    (words-to-count-map @random-quotes)))
+    (reset! state-quote-words [])
+    (async-many-futures (generate-future-tasks quote-number) state-quote-words )
+    (words-to-count-map @state-quote-words)))
