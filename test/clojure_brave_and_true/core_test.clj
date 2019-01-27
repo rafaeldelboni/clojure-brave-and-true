@@ -24,4 +24,4 @@
            {:message "Usage: program-name [options]\n\nOptions:\n  -c, --chapter NUMBER\n  -h, --help"})))
   (testing "should return error invalid chapter"
     (is (= (core/validate-args (list "-c" "1"))
-           {:message "The following errors occurred while parsing your command:\n\nFailed to validate \"-c 1\": Chapter must be a number between 3 and 10"}))))
+           {:message "The following errors occurred while parsing your command:\n\nFailed to validate \"-c 1\": Chapter must be a number between 3 and 13"}))))
